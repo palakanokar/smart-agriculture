@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Agriculture – AI Crop Recommendation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <nav class="nav">
+    <span class="brand">🌱 SmartAgri</span>
+    <div class="links">
+      <a href="#recommend">Recommend</a><a href="#performance">Model</a><a href="#about">About</a>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <header class="hero">
+    <h1>Smart Agriculture Monitoring</h1>
+    <p class="sub">AI-Based Crop Recommendation System</p>
+    <p>Enter your soil nutrients and weather conditions. A Random Forest machine learning model,
+      trained on 2,200 real field records, recommends the best crop to grow.</p>
+    <a href="#recommend" class="btn">Get Started</a>
+  </header>
+
+  <main>
+    <!-- FORM -->
+    <section id="recommend" class="card">
+      <h2>Crop Recommendation</h2>
+      <form id="cropForm" novalidate>
+        <div class="grid">
+          <label>Nitrogen (N) <small>kg/ha, 0–200</small><input name="N" type="number" step="any" placeholder="e.g. 90" /></label>
+          <label>Phosphorus (P) <small>kg/ha, 0–200</small><input name="P" type="number" step="any" placeholder="e.g. 42" /></label>
+          <label>Potassium (K) <small>kg/ha, 0–250</small><input name="K" type="number" step="any" placeholder="e.g. 43" /></label>
+          <label>Temperature <small>°C, 0–55</small><input name="temperature" type="number" step="any" placeholder="e.g. 21" /></label>
+          <label>Humidity <small>%, 0–100</small><input name="humidity" type="number" step="any" placeholder="e.g. 82" /></label>
+          <label>Soil pH <small>0–14</small><input name="ph" type="number" step="any" placeholder="e.g. 6.5" /></label>
+          <label>Rainfall <small>mm, 0–500</small><input name="rainfall" type="number" step="any" placeholder="e.g. 203" /></label>
+        </div>
+        <p id="error" class="error" hidden></p>
+        <div class="actions">
+          <button type="submit" class="btn">Recommend Crop</button>
+          <button type="button" id="sampleBtn" class="btn outline">Fill Sample</button>
+        </div>
+      </form>
+
+      <!-- RESULT -->
+      <div id="result" class="result" hidden>
+        <div class="crop-head">
+          <span id="cropIcon" class="icon">🌾</span>
+          <div>
+            <p class="muted">Recommended crop</p>
+            <h3 id="cropName"></h3>
+            <p class="muted">Model confidence: <b id="confidence"></b></p>
+          </div>
+        </div>
+        <h4>Why this crop? <span id="source" class="tag"></span></h4>
+        <p id="summary"></p>
+        <ul id="points"></ul>
+        <button id="resetBtn" class="btn outline">Try Another Prediction</button>
+      </div>
+    </section>
+
+    <!-- MODEL PERFORMANCE (loaded from /metrics - real values) -->
+    <section id="performance" class="card">
+      <h2>Model Performance</h2>
+      <div class="stats">
+        <div><b id="accuracy">–</b><span>Test Accuracy</span></div>
+        <div><b id="precision">–</b><span>Precision (macro)</span></div>
+        <div><b id="recall">–</b><span>Recall (macro)</span></div>
+        <div><b id="f1">–</b><span>F1-score (macro)</span></div>
+      </div>
+      <p class="muted" id="splitInfo"></p>
+      <h4>Feature Importance</h4>
+      <div id="importance"></div>
+      <h4>Per-Crop Classification Report</h4>
+      <div class="table-wrap"><table id="reportTable"></table></div>
+      <h4>Confusion Matrix</h4>
+      <div class="table-wrap"><table id="cmTable" class="cm"></table></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="card">
+      <h2>About the Project</h2>
+      <p>This mini-project uses the public <a href="https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset" target="_blank">Kaggle Crop Recommendation Dataset</a>
+        (2,200 records, 22 crops). Data is preprocessed with Pandas, split 80/20 into training and testing sets,
+        and a Scikit-learn Random Forest Classifier is trained. A Flask backend serves predictions to this page.</p>
+      <p class="flow">Dataset → Preprocessing → Train/Test Split → Random Forest → User Input → Crop Prediction → AI Explanation</p>
+    </section>
+  </main>
+
+  <footer>Smart Agriculture Monitoring · AI/ML Mini-Project</footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
